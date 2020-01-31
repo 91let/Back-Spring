@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+	
+
+<mapper namespace="com.beer.model.dao.UserDAO" >
+	<select id="search" parameterType="string" resultType="user">
+   		select *
+   		from USER
+   		where userId=#{userId}
+   </select> 
+   	<select id="searchAll" resultType="user">
+   		select *
+   		from USER
+   </select> 
+   <insert id="insert" parameterType="user">
+   		insert into USER(userId, password, nickname, profile, intro, master)
+   		values(
+   			#{userId:VARCHAR},
+   			#{password:VARCHAR},
+   			#{nickname:VARCHAR},
+   			#{profile:BLOB},
+   			#{intro:VARCHAR},
+			#{master:INTEGER}
+   		)
+   </insert>
+   <update id="update" parameterType="user">
+   		update USER set 
+   			password = #{password:VARCHAR},
+   			nickname = #{nickname:VARCHAR},
+   			profile = #{profile:BLOB},
+   			intro = #{intro:VARCHAR},
+			master = #{master:INTEGER}
+		where userId = #{userId:VARCHAR}
+   </update>
+   <delete id="delete" parameterType="string">
+   		delete * from USER where userId=#{userId}
+   </delete>
+</mapper>

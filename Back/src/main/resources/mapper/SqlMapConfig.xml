@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<!-- MyBatis Query를 위한 Xml에서 resultType, parametertype 으로  
+		     사용할  VO 클래스에 대한 별칭 설정 
+		  Java AIP에 대한 별칭 설정 정보 : org.apache.ibits.type.TypeAliasRegistry 
+		  -->
+		<typeAlias type="com.beer.model.dto.Beer"				alias="beer"/>
+		<typeAlias type="com.beer.model.dto.BeerComment"		alias="beercomment"/>
+		<typeAlias type="com.beer.model.dto.BeerLike"			alias="beerlike"/>
+		<typeAlias type="com.beer.model.dto.CommentLike"		alias="commentlike"/>
+		<typeAlias type="com.beer.model.dto.Follow"				alias="follow"/>
+		<typeAlias type="com.beer.model.dto.Notice"				alias="notice"/>
+		<typeAlias type="com.beer.model.dto.Reply"				alias="reply"/>
+		<typeAlias type="com.beer.model.dto.SNS"				alias="sns"/>
+		<typeAlias type="com.beer.model.dto.SNSLike"			alias="snslike"/>
+		<typeAlias type="com.beer.model.dto.Star"				alias="star"/>
+		<typeAlias type="com.beer.model.dto.User"				alias="user"/>
+	</typeAliases>
+	<mappers>
+	 <mapper resource="mapper/Beer_query.xml"/>
+	 <mapper resource="mapper/BeerComment_query.xml"/>
+	 <mapper resource="mapper/BeerLike_query.xml"/>
+	 <mapper resource="mapper/CommentLike_query.xml"/>
+	 <mapper resource="mapper/Follow_query.xml"/>
+	 <mapper resource="mapper/Notice_query.xml"/>
+	 <mapper resource="mapper/Reply_query.xml"/>
+	 <mapper resource="mapper/SNS_query.xml"/>
+	 <mapper resource="mapper/SNSLike_query.xml"/>
+	 <mapper resource="mapper/Star_query.xml"/>
+	 <mapper resource="mapper/User_query.xml"/>
+	</mappers>
+</configuration>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+	
+
+<mapper namespace="com.beer.model.dao.StarDAO" >
+	<select id="searchall" resultType="star">
+		select * from STAR
+	</select>
+
+	<select id="search" parameterType="star" resultType="int">
+   		select count(*)
+   		from STAR
+   		where userId=#{userId:VARCHAR} and beerId=#{beerId:INTEGER}
+   </select>
+   
+   <select id="searchByUser" parameterType="string" resultType="star">
+   		select * from STAR where userId=#{userId}
+   </select>
+   
+    <select id="countByUser" parameterType="string" resultType="int">
+   		select count(*) from STAR where userId=#{userId}
+   </select>
+   
+   <select id="countByBeer" parameterType="int" resultType="int">
+   		select count(*) from STAR where beerId=#{beerId}
+   </select>
+   
+   <select id="searchByBeer" parameterType="int" resultType="star">
+   		select * from STAR where beerId=#{beerId}
+   </select>
+   
+   <select id="samestar" parameterType="star" resultType="star">
+   		select * from STAR where beerId=#{beerId} and score=#{score}
+   </select>
+   
+   <select id="countsamestar" parameterType="star" resultType="int">
+   		select count(*) from STAR where beerId=#{beerId} and score=#{score}
+   </select>
+   
+   <insert id="insert" parameterType="star">
+   		insert into STAR(userId, beerId, score)
+   		values(
+   			#{userId:VARCHAR},
+			#{beerId:INTEGER},
+   			#{score:DOUBLE}
+   		)
+   </insert>
+   <update id="update" parameterType="star">
+   		update STAR set 
+   			score = #{score}
+		where userId=#{userId:VARCHAR} and beerId=#{beerId:INTEGER}
+   </update>
+   <select id="AVGScore" parameterType="int" resultType="double">
+   		select AVG(score)
+   		from STAR
+   		where beerId=#{beerId:INTEGER}
+   </select>
+   <delete id="deletestar" parameterType="star">
+   		delete * from STAR where userId=#{userId} and beerId=#{beerId}
+   </delete>
+</mapper>

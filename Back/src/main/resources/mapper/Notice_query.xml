@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+	
+<mapper namespace="com.beer.model.dao.NoticeDAO" >
+   <insert id="insertnotice" parameterType="notice">
+   		insert into Notice(userId, notice, link)
+   		values(
+   			#{userId},
+			#{notice},
+			#{link}
+   		)
+   </insert>
+   <delete id="deletenotice" parameterType="int">
+   		delete
+   		from Notice
+		where noticeId = #{noticeId}
+   </delete>
+   <select id="allnotice" parameterType="string" resultType="notice">
+   		select *
+   		from Notice
+		where userId = #{userId}
+   </select>
+   <select id="recent30" parameterType="string" resultType="notice">
+   		select *
+   		from Notice
+   		where userId = #{userId}
+   		ORDER BY noticeId DESC LIMIT 30
+   </select>
+</mapper>

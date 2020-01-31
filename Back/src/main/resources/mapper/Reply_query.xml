@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+	
+
+<mapper namespace="com.beer.model.dao.ReplyDAO" >
+	<select id="searchByArticle" parameterType="int" resultType="reply">
+		select *
+		from REPLY
+		where articleId=#{articleId}
+	</select>
+	
+	<insert id="insert" parameterType="reply">
+		insert into REPLY(articleId, userId, date, reply)
+		values(
+			#{articleId:INTEGER},
+			#{userId:VARCHAR},
+			now(),
+			#{reply:VARCHAR}
+		)
+	</insert>
+	
+	<update id="update" parameterType="reply">
+		update REPLY set(
+			reply=#{reply:VARCHAR}
+		)
+		where articleId=#{articleId:INTEGER} and userId = userId
+	</update>
+	
+	<delete id="delete" parameterType="reply">
+		delete from REPLY
+		where articleId=#{articleId:INTEGER} and userId = #{userId}
+	</delete>
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="com.beer.model.dao.BeerDAO">
+	<select id="search" parameterType="int" resultType="beer">
+		select * 
+		from BEER
+		where beerId = #{beerId}
+	</select>
+
+	<select id="searchByName" parameterType="string" resultType="beer">
+		select * 
+		from BEER
+		where beerName like concat('%',#{beerName},'%')
+	</select>
+	
+	<select id="searchByBrewer" parameterType="string" resultType="beer">
+		select * 
+		from BEER
+		where brewer like concat('%',#{brewer}, '%')
+	</select>
+	
+	<select id="searchByNation" parameterType="string" resultType="beer">
+		select * 
+		from BEER
+		where nation like concat('%', #{nation}, '%')
+	</select>
+	
+	<select id="searchByAlcohol" parameterType="string" resultType="beer">
+		select * 
+		from BEER
+		where alcohol like concat(#{alcohol}, '%')
+	</select>
+	
+	<select id="searchByCategory" parameterType="string" resultType="beer">
+		select * 
+		from BEER
+		where category like concat('%', #{category}, '%')
+	</select>
+	
+	<select id="searchAll" resultType="beer">
+		select *
+		from BEER
+	</select>
+	
+	<insert id="insert" parameterType="beer">
+		insert into BEER values(#{beerId}, #{beerName}, #{imgUrl}, #{brewer}, #{category}, #{nation}, #{alcohol}, #{description})
+	</insert>	
+	
+	<update id="update" parameterType="beer">
+		update BEER set
+			beerName = #{beerName},
+			imgUrl = #{imgUrl},
+			brewer = #{brewer},
+			category = #{category},
+			nation = #{nation},
+			alcohol = #{alcohol},
+			description = #{description}
+		where beerId = #{beerId}	
+	</update>
+
+	<delete id="delete" parameterType="int">
+		delete 
+		from BEER
+		where beerId = #{beerId}
+	</delete>
+</mapper>	

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="com.beer.model.dao.BeerLikeDAO">
+	<select id="search" parameterType="beerlike" resultType="int">
+	select count(*)	
+	from beerlike
+	where userId = #{userId} and beerId = #{beerId}
+	</select>
+	
+	<insert id="insert" parameterType="beerlike">
+	insert into beerlike values(#{userId}, #{beerId})
+	</insert>
+	
+	<delete id="delete" parameterType="beerlike">
+	delete from beerlike 
+	where userId = #{userId} and beerId = #{beerId}
+	</delete>
+	
+	<select id="countLike" parameterType="beerlike" resultType="int">
+	select count(*)	
+	from beerlike
+	where beerId = #{beerId}
+	</select>
+</mapper>

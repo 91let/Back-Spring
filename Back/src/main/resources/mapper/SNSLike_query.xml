@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+	
+
+<mapper namespace="com.beer.model.dao.SNSLikeDAO" >
+	<select id="search" parameterType="snslike" resultType="int">
+   		select count(*)
+   		from SNS_LIKE
+   		where userId=#{userId:VARCHAR} and articleId=#{articleId:INTEGER}
+   </select> 
+   <insert id="insert" parameterType="snslike">
+   		insert into SNS_LIKE(userId, articleId)
+   		values(
+   			#{userId:VARCHAR},
+			#{articleId:INTEGER}
+   		)
+   </insert>
+   <delete id="delete" parameterType="snslike">
+   		delete
+   		from SNS_LIKE
+		where userId=#{userId:VARCHAR} and articleId=#{articleId:INTEGER}
+   </delete>
+   <select id="countLike" parameterType="int" resultType="int">
+   		select count(*)
+   		from SNS_LIKE
+   		where articleId=#{articleId:INTEGER}
+   </select>
+</mapper>

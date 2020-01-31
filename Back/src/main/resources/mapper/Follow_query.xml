@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+	
+<mapper namespace="com.beer.model.dao.FollowDAO" >
+	<select id="countfollower" parameterType="int" resultType="int">
+   		select count(*)
+   		from Follow
+   		where followerId = #{followerId}
+   </select>
+   	<select id="countfollowing" parameterType="int" resultType="int">
+   		select count(*)
+   		from Follow
+   		where followingId = #{followingId}
+   </select>
+   <insert id="insertfollow" parameterType="follow">
+   		insert into Follow(followerId, followingId)
+   		values(
+   			#{followerId},
+			#{followingId}
+   		)
+   </insert>
+   <delete id="deletefollow" parameterType="follow">
+   		delete
+   		from Follow
+		where followerId=#{followerId} and followingId=#{followingId}
+   </delete>
+   <select id="checkfollow" parameterType="follow" resultType="int">
+   		select count(*)
+   		from Follow
+		where followerId=#{followerId} and followingId=#{followingId}
+   </select>
+</mapper>
