@@ -8,8 +8,8 @@
 		select * from STAR
 	</select>
 
-	<select id="search" parameterType="star" resultType="int">
-   		select count(*)
+	<select id="search" parameterType="hashmap" resultType="star">
+   		select *
    		from STAR
    		where userId=#{userId:VARCHAR} and beerId=#{beerId:INTEGER}
    </select>
@@ -30,11 +30,11 @@
    		select * from STAR where beerId=#{beerId}
    </select>
    
-   <select id="samestar" parameterType="star" resultType="star">
+   <select id="samestar" parameterType="hashmap" resultType="star">
    		select * from STAR where beerId=#{beerId} and score=#{score}
    </select>
    
-   <select id="countsamestar" parameterType="star" resultType="int">
+   <select id="countsamestar" parameterType="hashmap" resultType="int">
    		select count(*) from STAR where beerId=#{beerId} and score=#{score}
    </select>
    
@@ -57,6 +57,6 @@
    		where beerId=#{beerId:INTEGER}
    </select>
    <delete id="deletestar" parameterType="star">
-   		delete * from STAR where userId=#{userId} and beerId=#{beerId}
+   		delete from STAR where userId=#{userId} and beerId=#{beerId}
    </delete>
 </mapper>

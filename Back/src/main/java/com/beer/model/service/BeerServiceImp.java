@@ -121,32 +121,44 @@ public class BeerServiceImp implements BeerService{
 	}
 
 	@Override
-	public void insert(Beer beer) {
+	public boolean insert(Beer beer) {
 		try {
 			dao.insert(beer);
 			System.out.println("insert success");
+		
+			return true;
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		return false;
 	}
 
 	@Override
-	public void update(Beer beer) {
+	public boolean update(Beer beer) {
 		try {
 			dao.update(beer);
 			System.out.println("update success");
+		
+			return true;
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		return false;
 	}
 
 	@Override
-	public void delete(int beerId) {
+	public boolean delete(int beerId) {
 		try {
 			dao.delete(beerId);
 			System.out.println("delete success");
+			
+			return true;
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		return false;
 	}
 }

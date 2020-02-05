@@ -4,10 +4,38 @@
 	
 
 <mapper namespace="com.beer.model.dao.ReplyDAO" >
+	<select id="searchAll" resultType="reply">
+		select * from REPLY
+	</select>
+	
+	<select id="countAll" resultType="int">
+		select count(*) from REPLY
+	</select>
+
 	<select id="searchByArticle" parameterType="int" resultType="reply">
 		select *
 		from REPLY
 		where articleId=#{articleId}
+	</select>
+	
+	<select id="countByArticle" parameterType="int" resultType="int">
+		select count(*) from REPLY where articleId=#{articleId}
+	</select>
+	
+	<select id="searchByUser" parameterType="string" resultType="reply">
+		select * from REPLY where userId=#{userId}
+	</select>
+	
+	<select id="countByUser" parameterType="string" resultType="int">
+		select count(*) from REPLY where userId=#{userId}
+	</select>
+	
+	<select id="searchOne" parameterType="hashmap" resultType="reply">
+		select * from REPLY where articleId=#{articleId} and userId like concat('%', #{userId}, '%')
+	</select>
+	
+	<select id="countOne" parameterType="hashmap" resultType="int">
+		select count(*) from REPLY where articleId=#{articleId} and userId like concat('%', #{userId}, '%')
 	</select>
 	
 	<insert id="insert" parameterType="reply">
@@ -21,9 +49,8 @@
 	</insert>
 	
 	<update id="update" parameterType="reply">
-		update REPLY set(
+		update REPLY set
 			reply=#{reply:VARCHAR}
-		)
 		where articleId=#{articleId:INTEGER} and userId = userId
 	</update>
 	

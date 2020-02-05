@@ -1,5 +1,6 @@
 package com.beer.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +28,24 @@ public class StarServiceImp implements StarService{
 	}
 	
 	@Override
-	public int search(Star star) {
+	public double search(int beerId, String userId) {
+		
+		double count = 11.0;
+		
 		try {
-			int stars = stardao.search(star);
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("beerId", Integer.toString(beerId));
+			map.put("userId", userId);
 			
-			return stars;
+			if (stardao.search(map) != null) {
+				count = stardao.search(map).getScore();
+			}
+					
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return 0;
+		
+		return count;
 	};
 	
 	@Override
@@ -75,21 +85,29 @@ public class StarServiceImp implements StarService{
 	}
 	
 	@Override
-	public void insert(Star star) {
+	public boolean insert(Star star) {
 		try {
 			stardao.insert(star);
+			
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		return false;
 	};
 	
 	@Override
-	public void update(Star star) {
+	public boolean update(Star star) {
 		try {
 			stardao.update(star);
+		
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		return false;
 	};
 	
 	@Override
@@ -106,12 +124,16 @@ public class StarServiceImp implements StarService{
 	};
 	
 	@Override
-	public void deletestar(Star star) {
+	public boolean deletestar(Star star) {
 		try {
 			stardao.deletestar(star);
+			
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		return false;
 	}
 	
 	@Override
@@ -127,9 +149,12 @@ public class StarServiceImp implements StarService{
 	};
 	
 	@Override
-	public List<Star> samestar(Star star){
+	public List<Star> samestar(int beerId, double score){
 		try {
-			List<Star> stars = stardao.samestar(star);
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("beerId", Integer.toString(beerId));
+			map.put("score", Double.toString(score));
+			List<Star> stars = stardao.samestar(map);
 			
 			return stars;
 		} catch(Exception e) {
@@ -139,9 +164,12 @@ public class StarServiceImp implements StarService{
 	};
 	
 	@Override
-	public int countsamestar(Star star) {
+	public int countsamestar(int beerId, double score) {
 		try {
-			int count = stardao.countsamestar(star);
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("beerId", Integer.toString(beerId));
+			map.put("score", Double.toString(score));
+			int count = stardao.countsamestar(map);
 			return count;
 		} catch (Exception e) {
 			e.printStackTrace();

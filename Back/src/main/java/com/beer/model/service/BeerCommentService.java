@@ -5,8 +5,9 @@ import java.util.List;
 import com.beer.model.dto.BeerComment;
 
 public interface BeerCommentService {
-	public List<BeerComment> search();
-	public void insert(BeerComment beerComment);
-	public void update(BeerComment beerComment);
-	public void delete(BeerComment beerComment);
+	public List<BeerComment> searchAll();
+	public boolean insert(BeerComment beerComment);
+	public boolean update(BeerComment beerComment);
+	public boolean delete(int commentId);
+	public int count(int beerId);
 }

@@ -14,9 +14,9 @@ import com.beer.model.dto.BeerComment;
 
 @Mapper
 public interface BeerCommentDAO {
-	public List<BeerComment> search();
-	public void insert(BeerComment beerComment);
-	public void update(BeerComment beerComment);
-	public void delete(BeerComment beerComment);
-	// public void countComment();
+	public List<BeerComment> searchAll();
+	public boolean insert(BeerComment beerComment);
+	public boolean update(BeerComment beerComment);
+	public boolean delete(int commentId);
+	public int count(int beerId);
 }

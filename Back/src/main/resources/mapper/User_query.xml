@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
-	
-
 <mapper namespace="com.beer.model.dao.UserDAO" >
 	<select id="search" parameterType="string" resultType="user">
    		select *
@@ -19,7 +17,7 @@
    			#{userId:VARCHAR},
    			#{password:VARCHAR},
    			#{nickname:VARCHAR},
-   			#{profile:BLOB},
+   			#{profile:VARCHAR},
    			#{intro:VARCHAR},
 			#{master:INTEGER}
    		)
@@ -28,12 +26,19 @@
    		update USER set 
    			password = #{password:VARCHAR},
    			nickname = #{nickname:VARCHAR},
-   			profile = #{profile:BLOB},
+   			profile = #{profile:VARCHAR},
    			intro = #{intro:VARCHAR},
 			master = #{master:INTEGER}
 		where userId = #{userId:VARCHAR}
    </update>
+   
    <delete id="delete" parameterType="string">
-   		delete * from USER where userId=#{userId}
+   		delete from USER where userId=#{userId}
    </delete>
+   
+   <select id="searchByNickname" parameterType="string" resultType="user">
+   	select *
+		from USER
+		where nickname like upper(concat('%',#{nickname},'%'))
+   </select>
 </mapper>

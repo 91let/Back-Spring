@@ -10,10 +10,11 @@ public interface UserService {
 	
 	List<User> searchAll();
 
-	void insert(User user);
+	boolean insert(User user);
 
-	void update(User user);
+	boolean update(User user);
 	
-	public void delete(String userId);
+	boolean delete(String userId);
 
+	List<User> searchByNickname(String nickName);
 }

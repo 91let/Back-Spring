@@ -24,91 +24,96 @@ import io.swagger.annotations.ApiOperation;
 @CrossOrigin(origins = {"*"}, maxAge=6000)
 @RestController
 public class StarController {
-	
+
 	@Autowired
 	private StarService starService;
-	
+
 	@ExceptionHandler 
 	public ResponseEntity<Map<String, Object>> handler(Exception e){
 		return handleFail(e.getMessage(), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/star")
 	@ApiOperation("모든 평점")
 	public ResponseEntity<Map<String, Object>> searchAll(){
 		return handleSuccess(starService.searchall());
 	}
-	
-	@GetMapping({"/star/search/{beerId}/{userId}"})
+
+	@GetMapping("/star/search/{beerId}/{userId}")
 	@ApiOperation("평점 여부 확인")
 	public ResponseEntity<Map<String, Object>> searchStar(@PathVariable int beerId, @PathVariable String userId){
-		return handleSuccess(starService.search(star));
+		return handleSuccess(starService.search(beerId, userId));
 	}
-	
+
 	@GetMapping("/star/user/{userId}")
 	@ApiOperation("유저당 평점 정보")
 	public ResponseEntity<Map<String, Object>> searchStarByUser(@PathVariable String userId){
 		return handleSuccess(starService.searchByUser(userId));
 	}
-	
+
 	@GetMapping("/star/usercount/{userId}")
 	@ApiOperation("유저당 평점 매긴 개수")
 	public ResponseEntity<Map<String, Object>> countByUser(@PathVariable String userId){
 		return handleSuccess(starService.countByUser(userId));
 	}
-	
+
 	@GetMapping("/star/countbeer/{beerId}")
 	@ApiOperation("맥주당 평점 개수")
 	public ResponseEntity<Map<String, Object>> countByBeer(@PathVariable int beerId) {
 		return handleSuccess(starService.countByBeer(beerId));
 	}
-	
+
 	@GetMapping("/star/searchbeer/{beerId}")
 	@ApiOperation("평점을 남긴 유저")
 	public ResponseEntity<Map<String, Object>> searchByBeer(@PathVariable int beerId) {
 		return handleSuccess(starService.searchByBeer(beerId));
 	}
-	
-	@PostMapping("/star/same")
+
+	@GetMapping("/star/same/{beerId}/{score}")
 	@ApiOperation("같은 평점을 남긴 사람")
-	public ResponseEntity<Map<String, Object>> samestar(@RequestBody Star star) {
-		return handleSuccess(starService.samestar(star));
+	public ResponseEntity<Map<String, Object>> samestar(@PathVariable int beerId, @PathVariable double score) {
+		return handleSuccess(starService.samestar(beerId, score));
 	}
-	
-	@PostMapping("/star/samecount")
+
+	@GetMapping("/star/samecount/{beerId}/{score}")
 	@ApiOperation("같은 평점을 남긴 유저 수")
-	public ResponseEntity<Map<String, Object>> countsamestar(@RequestBody Star star) {
-		return handleSuccess(starService.countsamestar(star));
+	public ResponseEntity<Map<String, Object>> countsamestar(@PathVariable int beerId, @PathVariable double score) {
+		return handleSuccess(starService.countsamestar(beerId, score));
 	}
-	
+
 	@PostMapping("/star")
 	@ApiOperation("평점 정보 등록")
 	public ResponseEntity<Map<String, Object>> insertStar(@RequestBody Star star){
-		starService.insert(star);
-		return handleSuccess("등록 완료");
+		boolean result = starService.insert(star);
+
+		if(result) return handleSuccess("등록 완료");
+		else return handleFail("등록 실패", HttpStatus.UNAUTHORIZED);
 	}
 
 	@PutMapping("/star")
 	@ApiOperation("평점 정보 수정")
 	public ResponseEntity<Map<String, Object>> updateStar(@RequestBody Star star){
-		starService.update(star);
-		return handleSuccess("수정 완료");
+		boolean result = starService.update(star);
+
+		if(result) return handleSuccess("수정 완료");
+		else return handleFail("수정 실패", HttpStatus.UNAUTHORIZED);
 	}
-	
+
 	@GetMapping("/star/beer/{beerId}")
 	@ApiOperation("맥주당 별점 평균")
 	public ResponseEntity<Map<String, Object>> avgStar(@PathVariable int beerId) {
 		return handleSuccess(starService.AVGScore(beerId));
 	}
-	
-	 @DeleteMapping("/star")
-	 @ApiOperation("star 정보 삭제 ")
-	 public ResponseEntity<Map<String, Object>> deleteStar(@RequestBody Star star) {
-		 starService.deletestar(star);
-		 return handleSuccess("삭제 완료");
-	 }
 
+	@DeleteMapping("/star")
+	@ApiOperation("star 정보 삭제 ")
+	public ResponseEntity<Map<String, Object>> deleteStar(@RequestBody Star star) {
+		boolean result = starService.deletestar(star);
 	
+		if(result) return handleSuccess("등록 완료");
+		else return handleFail("등록 실패", HttpStatus.UNAUTHORIZED);
+	}
+
 	public ResponseEntity<Map<String, Object>> handleSuccess(Object data){
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("state", "ok");

@@ -2,7 +2,7 @@ package com.beer.model.dto;
 
 public class Reply {
 	private int articleId;
-	private int userId;
+	private String userId;
 	private String date;
 	private String reply;
 	
@@ -16,11 +16,11 @@ public class Reply {
 		this.articleId = articleId;
 	}
 
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

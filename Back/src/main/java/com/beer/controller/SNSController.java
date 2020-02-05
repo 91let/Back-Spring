@@ -44,69 +44,129 @@ public class SNSController {
 		return handleSuccess(snsService.allsns());
 	}
 	
+	@GetMapping("/sns/count")
+	@ApiOperation("모든 sns 개수")
+	public ResponseEntity<Map<String, Object>> countallArticle() {
+		return handleSuccess(snsService.countallsns());
+	}
+	
 	@GetMapping("/sns/article/{articleId}")
 	@ApiOperation("한 개의 sns 조회")
 	public ResponseEntity<Map<String, Object>> oneArticle(@PathVariable int articleId){
 		return handleSuccess(snsService.search(articleId));
 	}
 	
-	@GetMapping("/sns/user/{userId}")
-	@ApiOperation("user 당 sns 조회")
-	public ResponseEntity<Map<String, Object>> articleByUser(@PathVariable String userId){
-		return handleSuccess(snsService.searchByUser(userId));
+	@GetMapping("/sns/time")
+	@ApiOperation("시간순 sns")
+	public ResponseEntity<Map<String, Object>> articleByTime() {
+		return handleSuccess(snsService.snsByTime());
 	}
 	
-	@GetMapping("/sns/keyword/{keyword}")
-	@ApiOperation("keyword 로 sns 조회")
-	public ResponseEntity<Map<String, Object>> articleByKeword(@PathVariable String keyword){
-		return handleSuccess(snsService.searchByEvery(keyword));
+	@GetMapping("/sns/follow/{userId}")
+	@ApiOperation("follower sns 조회")
+	public ResponseEntity<Map<String, Object>> articleByFollow(@PathVariable String userId){
+		return handleSuccess(snsService.searchByFollow(userId));
+	}
+	
+	@GetMapping("/sns/countfollow/{userId}")
+	@ApiOperation("follower sns 개수 조회")
+	public ResponseEntity<Map<String, Object>> countArticleByFollow(@PathVariable String userId) {
+		return handleSuccess(snsService.countByFollow(userId));
+	}
+	
+	@GetMapping("/sns/nickname/{nickname}")
+	@ApiOperation("nickname으로 sns 조회")
+	public ResponseEntity<Map<String, Object>> articleByNickname(@PathVariable String nickname){
+		return handleSuccess(snsService.searchByNickname(nickname));
+	}
+	
+	@GetMapping("/sns/countnickname/{nickname}")
+	@ApiOperation("nickname으로 sns 개수 조회")
+	public ResponseEntity<Map<String, Object>> countArticleByNickname(@PathVariable String nickname) {
+		return handleSuccess(snsService.countByNickname(nickname));
+	}
+	
+	@GetMapping("/sns/contents/{contents}")
+	@ApiOperation("내용으로 sns 조회")
+	public ResponseEntity<Map<String, Object>> articleByContents(@PathVariable String contents){
+		return handleSuccess(snsService.searchByContents(contents));
+	}
+	
+	@GetMapping("/sns/countcontents/{contents}")
+	@ApiOperation("내용으로 sns 개수 조회")
+	public ResponseEntity<Map<String, Object>> countArticleByContents(@PathVariable String contents) {
+		return handleSuccess(snsService.countByContents(contents));
 	}
 
 	@PostMapping("/sns")
 	@ApiOperation("sns 등록")
 	public ResponseEntity<Map<String, Object>> insertSNS(@RequestBody SNS sns){
-		snsService.insert(sns);
-		return handleSuccess("등록 완료");
+		boolean result = snsService.insert(sns);
+
+		if(result) return handleSuccess("등록 완료");
+		else return handleFail("등록 실패", HttpStatus.UNAUTHORIZED);
 	}
 
 	@PutMapping("/sns")
 	@ApiOperation("sns 수정")
 	public ResponseEntity<Map<String, Object>> updateSNS(@RequestBody SNS sns){
-		snsService.update(sns);
-		return handleSuccess("수정 완료");
+		boolean result = snsService.update(sns);
+		
+		if(result) return handleSuccess("수정 완료");
+		else return handleFail("수정 실패", HttpStatus.UNAUTHORIZED);
 	}
 	
 	@DeleteMapping("/sns/{articleId}")
 	@ApiOperation("sns 삭제")
 	public ResponseEntity<Map<String, Object>> deleteSNS(@PathVariable int articleId){
-		snsService.delete(articleId);
-		return handleSuccess("삭제 완료");
+		boolean result = snsService.delete(articleId);
+
+		if(result) return handleSuccess("삭제 완료");
+		else return handleFail("삭제 실패", HttpStatus.UNAUTHORIZED);
 	}
 	
-	@GetMapping("/snslike")
+	@GetMapping("/snslike/{userId}/{articleId}")
 	@ApiOperation("sns like 여부 판별")
-	public ResponseEntity<Map<String, Object>> searchLike(@RequestBody SNSLike snsLike) {
-		return handleSuccess(snslikeService.search(snsLike));
+	public ResponseEntity<Map<String, Object>> searchLike(@PathVariable String userId, @PathVariable int articleId) {
+		return handleSuccess(snslikeService.search(userId, articleId));
 	}
 	
 	@PostMapping("/snslike")
 	@ApiOperation("like")
 	public ResponseEntity<Map<String, Object>> insertLike(@RequestBody SNSLike snsLike) {
-		snslikeService.insert(snsLike);
-		return handleSuccess("등록 완료");
+		if(snslikeService.insert(snsLike)) return handleSuccess("등록 완료");
+		else return handleFail("등록 실패", HttpStatus.UNAUTHORIZED);
 	}
 	
 	@DeleteMapping("/snslike")
 	@ApiOperation("unlike")
 	public ResponseEntity<Map<String, Object>> deleteLike(@RequestBody SNSLike snsLike) {
-		snslikeService.delete(snsLike);
-		return handleSuccess("삭제 완료");
+		if(snslikeService.delete(snsLike)) return handleSuccess("삭제 완료");
+		else return handleFail("삭제 실패", HttpStatus.UNAUTHORIZED);
 	}
 	
-	@GetMapping("/snslike/{articleId}")
+	@GetMapping("/snslike/countuser/{articleId}")
 	@ApiOperation("like 개수")
 	public ResponseEntity<Map<String, Object>> countLike(@PathVariable int articleId) {
 		return handleSuccess(snslikeService.countLike(articleId));
+	}
+	
+	@GetMapping("/snslike/userlist/{articleId}")
+	@ApiOperation("sns 게시글 좋아하는 유저 리스트")
+	public ResponseEntity<Map<String, Object>> searchLikeUser(@PathVariable int articleId){
+		return handleSuccess(snslikeService.likeduser(articleId));
+	}
+	
+	@GetMapping("/snslike/countarticle/{userId}")
+	@ApiOperation("유저당 좋아하는 sns 개수")
+	public ResponseEntity<Map<String, Object>> countLikeArticle(@PathVariable String userId) {
+		return handleSuccess(snslikeService.countlikedarticlebyuser(userId));
+	}
+	
+	@GetMapping("/snslike/articlelist/{userId}")
+	@ApiOperation("유저당 좋아하는 sns 리스트")
+	public ResponseEntity<Map<String, Object>> searchLikeArticle(@PathVariable String userId) {
+		return handleSuccess(snslikeService.likedarticle(userId));
 	}
 
 	public ResponseEntity<Map<String, Object>> handleSuccess(Object data){

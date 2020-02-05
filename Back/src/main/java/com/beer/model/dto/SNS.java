@@ -2,9 +2,9 @@ package com.beer.model.dto;
 
 public class SNS {
 	private int articleId;
-	private int userId;
+	private String userId;
 	private String date;
-	private byte[] picture;
+	private String picture;
 	private String contents;
 	
 	SNS(){}
@@ -17,11 +17,11 @@ public class SNS {
 		this.articleId = articleId;
 	}
 
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
@@ -33,11 +33,11 @@ public class SNS {
 		this.date = date;
 	}
 
-	public byte[] getPicture() {
+	public String getPicture() {
 		return picture;
 	}
 
-	public void setPicture(byte[] picture) {
+	public void setPicture(String picture) {
 		this.picture = picture;
 	}
 
@@ -52,8 +52,6 @@ public class SNS {
 	@Override
 	public String toString() {
 		return "SNS [articleId=" + articleId + ", userId=" + userId + ", date=" + date + ", picture="
-				+ (picture != null) + ", contents=" + contents + "]";
+				+ picture + ", contents=" + contents + "]";
 	}
-	
-	
 }

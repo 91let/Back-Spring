@@ -27,6 +27,30 @@ public class SNSServiceImp implements SNSService {
 	}
 	
 	@Override
+	public int countallsns() {
+		try {
+			int count = snsdao.countallsns();
+			
+			return count;
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	@Override
+	public List<SNS> snsByTime() {
+		try {
+			List<SNS> articles = snsdao.snsByTime();
+			
+			return articles;
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
 	public SNS search(int articleId) {
 		try {
 			SNS article = snsdao.search(articleId);
@@ -37,11 +61,35 @@ public class SNSServiceImp implements SNSService {
 		}
 		return null;
 	};
+	
+	@Override
+	public List<SNS> searchByFollow(String userId) {
+		try {
+			List<SNS> articles = snsdao.searchByFollow(userId);
+			
+			return articles;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public int countByFollow(String userId) {
+		try {
+			int count = snsdao.countByFollow(userId);
+			
+			return count;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 
 	@Override
-	public List<SNS> searchByUser(String userId){
+	public List<SNS> searchByNickname(String nickname){
 		try {
-			List<SNS> articles = snsdao.searchByUser(userId);
+			List<SNS> articles = snsdao.searchByNickname(nickname);
 			
 			return articles;
 		} catch(Exception e) {
@@ -51,9 +99,20 @@ public class SNSServiceImp implements SNSService {
 	};
 	
 	@Override
-	public List<SNS> searchByEvery(String keyword){
+	public int countByNickname(String nickname) {
 		try {
-			List<SNS> articles = snsdao.searchByEvery(keyword);
+			int count = snsdao.countByNickname(nickname);
+			return count;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	@Override
+	public List<SNS> searchByContents(String contents){
+		try {
+			List<SNS> articles = snsdao.searchByContents(contents);
 			
 			return articles;
 		} catch(Exception e) {
@@ -63,29 +122,53 @@ public class SNSServiceImp implements SNSService {
 	};
 	
 	@Override
-	public void insert(SNS sns) {
+	public int countByContents(String contents) {
+		try {
+			int count = snsdao.countByContents(contents);
+			
+			return count;
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	@Override
+	public boolean insert(SNS sns) {
 		try {
 			snsdao.insert(sns);
+			
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		return false;
 	};
 	
 	@Override
-	public void update(SNS sns) {
+	public boolean update(SNS sns) {
 		try {
 			snsdao.update(sns);
+			
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		return false;
 	}; 
 	
 	@Override
-	public void delete(int articleId) {
+	public boolean delete(int articleId) {
 		try {
 			snsdao.delete(articleId);
+			
+			return true;
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		return false;
 	}; 
 }

@@ -26,5 +26,4 @@ public class BeerLike {
 	public String toString() {
 		return "BeerLike [userId=" + userId + ", beerId=" + beerId + "]";
 	}
-	
 }

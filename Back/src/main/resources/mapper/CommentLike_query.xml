@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.beer.model.dao.CommentLikeDAO">
+	<insert id="insertCommentLike" parameterType="commentlike">
+		insert into COMMENT_LIKE(commentId, userId)
+		values(
+		#{commentId},
+		#{userId}
+		)
+	</insert>
 	
-<mapper namespace="com.beer.model.dao.CommentLikeDAO" >
-	<select id="countlike" parameterType="int" resultType="int">
-   		select count(*)
-   		from CommentLike
-   		where commentId = #{commentId}
-   </select>
-   <insert id="insertcommentlike" parameterType="commentlike">
-   		insert into CommentLike(commentId, userId)
-   		values(
-   			#{commentId},
-			#{userId}
-   		)
-   </insert>
-   <delete id="deletecommentlike" parameterType="commentlike">
-   		delete
-   		from CommentLike 
+	<delete id="deleteCommentLike" parameterType="commentlike">
+		delete
+		from COMMENT_LIKE
 		where userId=#{userId} and commentId=#{commentId}
-   </delete>
-   <select id="likecomment" parameterType="commentlike" resultType="int">
-   		select count(*)
-   		from CommentLike
-		where userId=#{userId} and commentId=#{commentId}
-   </select>
+	</delete>
+	
+	<select id="likeCommentLike" resultType="int">
+		select count(*)
+		from COMMENT_LIKE
+		where commentId = #{commentId} and userId = #{userId}
+	</select>
+
+	<select id="countCommentLike" parameterType="int"
+		resultType="int">
+		select count(*)
+		from COMMENT_LIKE
+		where commentId = #{commentId}
+	</select>
 </mapper>

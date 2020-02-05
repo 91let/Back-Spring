@@ -13,21 +13,57 @@
 	<select id="allsns" resultType="sns">
 		select * from SNS
 	</select>
-
-	<select id="searchByUser" parameterType="string" resultType="sns">
-		select *
-		from SNS
-		where userId=#{userId} or (
-			select follower
-			from Follow
-			where following=#{userId}
-		)
+	
+	<select id="countallsns" resultType="int">
+		select count(*) from SNS
 	</select>
 	
-	<select id="searchByEvery" parameterType="string" resultType="sns">
+	<select id="snsByTime" resultType="sns">
+		select * from SNS ORDER BY date DESC
+	</select>
+	
+	<select id="searchByFollow" parameterType="string" resultType="sns">
 		select *
 		from SNS
-		where userId like concat('%',#{keyword},'%') or contents like concat('%',#{keyword},'%')
+		where userId in (
+			select followerId
+			from FOLLOW
+			where followingId=#{userId}
+		)
+		ORDER BY date DESC
+	</select>
+	
+	<select id="countByFollow" parameterType="string" resultType="int">
+		select count(*)
+		from SNS
+		where userId in (
+			select followerId
+			from FOLLOW
+			where followingId=#{userId}
+		)
+		ORDER BY date DESC
+	</select>
+	
+	<select id="searchByNickname" parameterType="string" resultType="sns">
+		select * from SNS where userId in (select userId from USER where nickname like concat("%", #{nickname}, "%"))
+		ORDER BY date DESC;
+	</select>
+	
+	<select id="countByNickname" parameterType="string" resultType="int">
+		select count(*) from SNS where userId in (select userId from USER where nickname like concat("%", #{nickname}, "%"))
+		ORDER BY date DESC;
+	</select>
+	
+	<select id="searchByContents" parameterType="string" resultType="sns">
+		select *
+		from SNS
+		where contents like upper(concat('%',#{contents},'%')) ORDER BY date DESC
+	</select>
+	
+	<select id="countByContents" parameterType="string" resultType="int">
+		select count(*)
+		from SNS
+		where contents like upper(concat('%',#{contents},'%')) ORDER BY date DESC
 	</select>
 	
 	<insert id="insert" parameterType="sns">
@@ -36,21 +72,20 @@
 			#{articleId:INTEGER},
 			#{userId:VARCHAR},
 			now(),
-			#{picture:BLOB},
+			#{picture:VARCHAR},
 			#{contents:VARCHAR}
 		)
 	</insert>
 	
 	<update id="update" parameterType="sns">
-		update SNS set(
-			picture=#{picture:BLOB},
+		update SNS set
+			picture=#{picture},
 			contents=#{contents:VARCHAR}
-		)
 		where articleId=#{articleId:INTEGER}
 	</update>
 	
 	<delete id="delete" parameterType="int">
 		delete from SNS
-		where articleId=#{articleId:BLOB}
+		where articleId=#{articleId}
 	</delete>
 </mapper>

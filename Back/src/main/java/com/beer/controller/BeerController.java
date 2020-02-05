@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.beer.model.dto.Beer;
 import com.beer.model.dto.BeerComment;
+import com.beer.model.dto.BeerLike;
 import com.beer.model.service.BeerCommentService;
+import com.beer.model.service.BeerLikeService;
 import com.beer.model.service.BeerService;
 
 import io.swagger.annotations.ApiOperation;
@@ -31,6 +33,9 @@ public class BeerController {
 
 	@Autowired
 	private BeerCommentService beerCommentService;
+	
+	@Autowired
+	private BeerLikeService beerLikeService;
 	
 	@ExceptionHandler 
 	public ResponseEntity<Map<String, Object>> handler(Exception e){
@@ -89,46 +94,102 @@ public class BeerController {
 	@PostMapping("/beer/write")
 	@ApiOperation("맥주 데이터 저장")
 	public ResponseEntity<Map<String, Object>> beerWrite(@RequestBody Beer beer){
-		beerService.insert(beer);
-		return handleSuccess("맥주 데이터 저장 성공");
+		boolean result = beerService.insert(beer);
+		if(result) return handleSuccess(beer.getBeerName() + " 맥주 데이터 저장\n");
+		else return handleFail("등록 실패", HttpStatus.UNAUTHORIZED);
 	}
 	
 	@PutMapping("/beer/update")
 	@ApiOperation("맥주 데이터 수정")
 	public ResponseEntity<Map<String, Object>> beerUpdate(@RequestBody Beer beer){
-		beerService.update(beer);
-		return handleSuccess("맥주 데이터 수정 성공");
+		boolean result = beerService.update(beer);
+		if(result) return handleSuccess(beer.getBeerName() + " 맥주 데이터 수정\n");
+		else return handleFail("등록 실패", HttpStatus.UNAUTHORIZED);
 	}
 	
 	@DeleteMapping("/beer/delete/{beerId}")
 	@ApiOperation("맥주 데이터 삭제")
 	public ResponseEntity<Map<String, Object>> beerDelete(@PathVariable int beerId){
-		beerService.delete(beerId);
-		return handleSuccess("맥주 데이터 삭제 성공");
+		boolean result = beerService.delete(beerId);
+		if(result) return handleSuccess(beerId + "번 맥주 데이터 삭제\n");
+		else return handleFail("등록 실패", HttpStatus.UNAUTHORIZED);
 	}
 	/* End: beer --------------------------------------- */
 
 	/* Start: beerComment --------------------------------------- */
-	@PostMapping("/beerComment/write")
-	@ApiOperation("맥주 댓글 추가")
-	public ResponseEntity<Map<String, Object>> commentWrite(@RequestBody BeerComment beerComment){
-		beerCommentService.insert(beerComment);
-		return handleSuccess("맥주 댓글 저장 성공");
+	@GetMapping("/beer/Comment")
+	@ApiOperation("맥주 댓글 보기")
+	public ResponseEntity<Map<String, Object>> commentList(){
+		return handleSuccess(beerCommentService.searchAll());
 	}	
 	
-	@PutMapping("/beerComment/update")
+	@PostMapping("/beer/Comment/write")
+	@ApiOperation("맥주 댓글 추가")
+	public ResponseEntity<Map<String, Object>> commentWrite(@RequestBody BeerComment beerComment){
+		boolean result = beerCommentService.insert(beerComment);
+		if(result) return handleSuccess(beerComment.getBeerId() + "번 맥주 댓글 저장\n");
+		else return handleFail("등록 실패", HttpStatus.UNAUTHORIZED);
+	}
+	
+	@PutMapping("/beer/Comment/update")
 	@ApiOperation("맥주 댓글 수정")
 	public ResponseEntity<Map<String, Object>> commentUpdate(@RequestBody BeerComment beerComment){
-		beerCommentService.update(beerComment);
-		return handleSuccess("맥주 댓글 수정 성공");
+		boolean result = beerCommentService.update(beerComment);
+		if(result) return handleSuccess(beerComment.getBeerId() + "번 맥주 댓글 수정\n");
+		else return handleFail("수정 실패", HttpStatus.UNAUTHORIZED);
 	}	
-	@DeleteMapping("/beerComment/delete")
+
+	@DeleteMapping("/beer/Comment/delete/{commentId}")
 	@ApiOperation("맥주 댓글 삭제")
-	public ResponseEntity<Map<String, Object>> commentDelete(@RequestBody BeerComment beerComment){
-		beerCommentService.delete(beerComment);
-		return handleSuccess("맥주 댓글 삭제 성공");
+	public ResponseEntity<Map<String, Object>> commentDelete(@PathVariable int commentId){
+		boolean result = beerCommentService.delete(commentId);
+		if(result) return handleSuccess(commentId + "번 댓글 삭제\n");
+		else return handleFail("삭제 실패", HttpStatus.UNAUTHORIZED);
 	}	
+	
+	@GetMapping("/beer/Comment/count/{beerId}")
+	@ApiOperation("맥주별 댓글 카운트")
+	public ResponseEntity<Map<String, Object>> commentCount(@PathVariable int beerId){
+		int cnt = beerCommentService.count(beerId);
+		return handleSuccess("맥주별 댓글 카운트: " + cnt + "\n");
+	}
 	/* End: beerComment --------------------------------------- */
+	
+	/* Start: beerLike --------------------------------------- */
+	@GetMapping("/beer/like/count/{userId}/{beerId}")
+	@ApiOperation("회원별 맥주 찜 여부 확인 1: O, 0: X")
+	public ResponseEntity<Map<String, Object>> searchLike(@PathVariable String userId, @PathVariable int beerId){
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("userId", userId);
+		map.put("beerId", Integer.toString(beerId));
+		
+		int result = beerLikeService.search(map);
+		return handleSuccess(userId + " 회원 맥주 찜 여부: " + result + "\n");
+	}
+
+	@PostMapping("/beer/like/write")
+	@ApiOperation("회원 맥주 찜 저장")
+	public ResponseEntity<Map<String, Object>> writeLike(@RequestBody BeerLike beerLike){
+		boolean result = beerLikeService.insert(beerLike);
+		if(result) return handleSuccess(beerLike.getUserId() + " 회원" + beerLike.getBeerId() + " 맥주 찜 저장");
+		else return handleFail("등록 실패", HttpStatus.UNAUTHORIZED);
+	}
+	
+	@DeleteMapping("/beer/like/delete")
+	@ApiOperation("회원 맥주 찜 삭제")
+	public ResponseEntity<Map<String, Object>> deleteLike(@RequestBody BeerLike beerLike){
+		boolean result = beerLikeService.delete(beerLike);
+		if(result) return handleSuccess(beerLike.getUserId() + " 회원" + beerLike.getBeerId() + " 맥주 찜 삭제");
+		else return handleFail("삭제 실패", HttpStatus.UNAUTHORIZED);
+	}
+	
+	@GetMapping("beer/like/count/{beerId}")
+	@ApiOperation("해당 맥주 찜 개수")
+	public ResponseEntity<Map<String, Object>> countLike(@PathVariable int beerId){
+		int result = beerLikeService.countLike(beerId);
+		return handleSuccess(beerId + " 맥주 찜 개수: " + result);
+	}
+	/* End: beerLike --------------------------------------- */
 	
 	public ResponseEntity<Map<String, Object>> handleSuccess(Object data){
 		Map<String, Object> resultMap = new HashMap<String, Object>();

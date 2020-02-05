@@ -10,7 +10,8 @@ import com.beer.model.dto.User;
 public interface UserDAO {
 	public User search(String userId);
 	public List<User> searchAll();
-	public void insert(User user);
-	public void update(User user);
-	public void delete(String userId);
+	public boolean insert(User user);
+	public boolean update(User user);
+	public boolean delete(String userId);
+	public List<User> searchByNickname(String nickname);
 }

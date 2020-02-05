@@ -14,9 +14,9 @@ public class BeerCommentServiceImp implements BeerCommentService {
 	BeerCommentDAO dao;
 	
 	@Override
-	public List<BeerComment> search() {
+	public List<BeerComment> searchAll() {
 		try {
-			List<BeerComment> list = dao.search();
+			List<BeerComment> list = dao.searchAll();
 			for(BeerComment bc:list) System.out.println(bc);
 			
 			return list;
@@ -28,34 +28,58 @@ public class BeerCommentServiceImp implements BeerCommentService {
 	}
 
 	@Override
-	public void insert(BeerComment beerComment) {
+	public boolean insert(BeerComment beerComment) {
 		try {
 			dao.insert(beerComment);
-			
 			System.out.println("맥주 댓글 저장 성공");
+			
+			return true;
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		return false;
 	}
 
 	@Override
-	public void update(BeerComment beerComment) {
+	public boolean update(BeerComment beerComment) {
 		try {
 			dao.update(beerComment);
 			System.out.println("맥주 댓글 변경 성공");
+			
+			return true;
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		return false;
 	}
 
 	@Override
-	public void delete(BeerComment beerComment) {
+	public boolean delete(int commentId) {
 		try {
-			dao.delete(beerComment);
-			
+			dao.delete(commentId);
 			System.out.println("맥주 댓글 삭제 성공");
+			
+			return true;
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		return false;
+	}
+
+	@Override
+	public int count(int beerId) {
+		try {
+			int result = dao.count(beerId);
+			System.out.print("댓글 개수: " + result);
+	
+			return result;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
 	}
 }	

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.beer.model.dao.BeerCommentDAO">
-	<select id="search" resultType="beercomment">
+	<select id="searchAll" resultType="beercomment">
 		select * from BEER_COMMENT;
 	</select>
 
@@ -17,10 +17,13 @@
 		where commentId = #{commentId}
 	</update>
 
-
-
-	<delete id="delete" parameterType="int">
+	<delete id="delete" parameterType="beerComment">
 		delete from BEER_COMMENT
-		where commentId = #{commentId}
+		where beerId = #{beerId} and commentId = #{commentId}
 	</delete>
+	
+	<select id="count" parameterType="int" resultType="int">
+		select count(*) from BEER_COMMENT
+		where beerId = #{beerId}
+	</select>
 </mapper>

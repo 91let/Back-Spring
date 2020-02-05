@@ -4,7 +4,7 @@ public class User {
 	private String userId;
 	private String password;
 	private String nickname;
-	private byte[] profile;
+	private String profile;
 	private String intro;
 	private int master;
 	
@@ -34,11 +34,11 @@ public class User {
 		this.nickname = nickname;
 	}
 
-	public byte[] getProfile() {
+	public String getProfile() {
 		return profile;
 	}
 
-	public void setProfile(byte[] profile) {
+	public void setProfile(String profile) {
 		this.profile = profile;
 	}
 
@@ -63,5 +63,4 @@ public class User {
 		return "User [userId=" + userId + ", password=" + password + ", nickname=" + nickname + ", profile="
 				+ (profile != null) + ", intro=" + intro + ", master=" + master + "]";
 	};
-
 }

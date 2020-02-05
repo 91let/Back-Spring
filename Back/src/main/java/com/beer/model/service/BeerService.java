@@ -26,7 +26,7 @@ public interface BeerService {
 	// 모든 맥주 리스트 검색
 	public List<Beer> searchAll();
 	
-	public void insert(Beer beer);
-	public void update(Beer beer);
-	public void delete(int beerId);
+	public boolean insert(Beer beer);
+	public boolean update(Beer beer);
+	public boolean delete(int beerId);
 }

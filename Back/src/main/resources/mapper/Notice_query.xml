@@ -4,26 +4,29 @@
 	
 <mapper namespace="com.beer.model.dao.NoticeDAO" >
    <insert id="insertnotice" parameterType="notice">
-   		insert into Notice(userId, notice, link)
+   		insert into NOTICE(userId, notice, link)
    		values(
    			#{userId},
 			#{notice},
 			#{link}
    		)
    </insert>
+   
    <delete id="deletenotice" parameterType="int">
    		delete
-   		from Notice
+   		from NOTICE
 		where noticeId = #{noticeId}
    </delete>
+   
    <select id="allnotice" parameterType="string" resultType="notice">
    		select *
-   		from Notice
+   		from NOTICE
 		where userId = #{userId}
    </select>
+   
    <select id="recent30" parameterType="string" resultType="notice">
    		select *
-   		from Notice
+   		from NOTICE
    		where userId = #{userId}
    		ORDER BY noticeId DESC LIMIT 30
    </select>

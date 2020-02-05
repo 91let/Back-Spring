@@ -50,36 +50,67 @@ public class UserServiceImp implements UserService {
 	 * @see com.beer.model.service.UserService#insert(com.beer.model.dto.User)
 	 */
 	@Override
-	public void insert(User user) {
+	public boolean insert(User user) {
 		try {
 			dao.insert(user);
 			System.out.println("insert success");
+
+			return true;
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
+		
+		return false;
 	}
 	
 	/* (non-Javadoc)
 	 * @see com.beer.model.service.UserService#update(com.beer.model.dto.User)
 	 */
 	@Override
-	public void update(User user) {
+	public boolean update(User user) {
 		try {
 			dao.update(user);
 			System.out.println("update success");
+			
+			return true;
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
+		
+		return false;
 	}
 	
 	@Override
-	public void delete(String userId) {
+	public boolean delete(String userId) {
 		try {
 			dao.delete(userId);
+			System.out.println("delete success");
+			
+			return true;
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		return false;
+	}
+
+	@Override
+	public List<User> searchByNickname(String nickname) {
+		try {
+			System.out.println(nickname);
+			List<User> list = dao.searchByNickname(nickname);
+			
+			System.out.print("닉네임으로 검색: ");
+			for(User users:list)
+				System.out.print(users.getNickname() + " ");
+			
+			System.out.println();
+			
+			return list;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 }

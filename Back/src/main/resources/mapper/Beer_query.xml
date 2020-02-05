@@ -11,7 +11,7 @@
 	<select id="searchByName" parameterType="string" resultType="beer">
 		select * 
 		from BEER
-		where beerName like concat('%',#{beerName},'%')
+		where beerName like upper(concat('%',#{beerName},'%'))
 	</select>
 	
 	<select id="searchByBrewer" parameterType="string" resultType="beer">

@@ -4,7 +4,7 @@
 	
 
 <mapper namespace="com.beer.model.dao.SNSLikeDAO" >
-	<select id="search" parameterType="snslike" resultType="int">
+	<select id="search" parameterType="hashmap" resultType="int">
    		select count(*)
    		from SNS_LIKE
    		where userId=#{userId:VARCHAR} and articleId=#{articleId:INTEGER}
@@ -21,9 +21,22 @@
    		from SNS_LIKE
 		where userId=#{userId:VARCHAR} and articleId=#{articleId:INTEGER}
    </delete>
+   
    <select id="countLike" parameterType="int" resultType="int">
    		select count(*)
    		from SNS_LIKE
    		where articleId=#{articleId:INTEGER}
+   </select>
+   
+   <select id="likeduser" parameterType="int" resultType="snslike">
+   		select * from SNS_LIKE where articleId=#{articleId}
+   </select>
+   
+   <select id="likedarticle" parameterType="string" resultType="snslike">
+   		select * from SNS_LIKE where userId=#{userId}
+   </select>
+   
+   <select id="countlikedarticlebyuser" parameterType="string" resultType="int">
+   		select count(*) from SNS_LIKE where userId=#{userId}
    </select>
 </mapper>
