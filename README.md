@@ -1,6 +1,6 @@
 # Back-Spring
 
-## I'm Using STS
+## Using STS
 
 ## Making Project
 
